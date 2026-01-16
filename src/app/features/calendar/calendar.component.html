@@ -1,0 +1,102 @@
+<div class="calendar-container">
+  <div class="calendar-header">
+    <h1>Calendario de Sesiones</h1>
+
+    <div class="filters-container">
+      <div class="filter-group">
+        <label for="category">Categoría</label>
+        <select
+          id="category"
+          [(ngModel)]="selectedCategory"
+          (change)="onCategoryChange()"
+          class="filter-select"
+        >
+          <option value="">Todas las categorías</option>
+          @for (category of categories; track category) {
+            <option [value]="category">
+              {{ category }}
+            </option>
+          }
+        </select>
+      </div>
+
+      <div class="filter-group">
+        <label for="status">Estado</label>
+        <select
+          id="status"
+          [(ngModel)]="selectedStatus"
+          (change)="onStatusChange()"
+          class="filter-select"
+        >
+          <option value="">Todos los estados</option>
+          @for (status of statuses; track status) {
+            <option [value]="status">
+              {{ status | titlecase }}
+            </option>
+          }
+        </select>
+      </div>
+
+      <div class="filter-group search-group">
+        <label for="search">Buscar</label>
+        <input
+          id="search"
+          type="text"
+          [(ngModel)]="searchTerm"
+          (input)="onSearchChange()"
+          placeholder="Buscar sesiones..."
+          class="search-input"
+        />
+      </div>
+
+      @if (selectedCategory || selectedStatus || searchTerm) {
+        <button class="btn-clear" (click)="clearFilters()">
+          Limpiar filtros
+        </button>
+      }
+    </div>
+  </div>
+
+  <div class="calendar-wrapper">
+    <full-calendar #calendar [options]="calendarOptions()"></full-calendar>
+  </div>
+
+  @if (showSessionDetail) {
+    <div class="session-detail-overlay" (click)="closeSessionDetail()">
+      @if (selectedSession) {
+        <div class="session-detail-modal" (click)="$event.stopPropagation()">
+          <button class="close-btn" (click)="closeSessionDetail()">✕</button>
+
+          <div class="session-detail-header">
+            <h2>{{ selectedSession.title }}</h2>
+            <span class="category-badge" [style.background-color]="getEventColor(selectedSession.category)">
+              {{ selectedSession.category }}
+            </span>
+          </div>
+
+          <div class="session-detail-content">
+            <div class="detail-item">
+              <span class="detail-label"><i class="fas fa-align-left"></i> Descripción:</span>
+              <p>{{ selectedSession.description }}</p>
+            </div>
+
+            <div class="detail-item">
+              <span class="detail-label"><i class="fas fa-map-marker-alt"></i> Ciudad:</span>
+              <p>{{ selectedSession.city }}</p>
+            </div>
+
+            <div class="detail-item">
+              <span class="detail-label"><i class="fas fa-clock"></i> Fecha y Hora:</span>
+              <p>{{ selectedSession.dateTime | date:'dd/MM/yyyy HH:mm' }}</p>
+            </div>
+
+            <div class="detail-item">
+              <span class="detail-label"><i class="fas fa-tag"></i> Estado:</span>
+              <p>{{ selectedSession.status | titlecase }}</p>
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+  }
+</div>

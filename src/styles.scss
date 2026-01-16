@@ -1,0 +1,87 @@
+/* Importar fuente Satoshi desde Google Fonts (alternativa disponible) */
+@import url('https://api.fontshare.com/v2/css?f[]=satoshi@900,700,500,400&display=swap');
+
+/* Importar Font Awesome */
+@import '@fortawesome/fontawesome-free/css/all.min.css';
+
+/* Importar Flatpickr */
+@import 'flatpickr/dist/flatpickr.min.css';
+
+/* Estilos globales */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Personalizar Flatpickr */
+.flatpickr-calendar {
+  border-radius: 10px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  border: none;
+  font-family: 'Satoshi', sans-serif;
+}
+
+.flatpickr-day.selected {
+  background: #667eea;
+  border-color: #667eea;
+
+  &:hover {
+    background: #5568d3;
+    border-color: #5568d3;
+  }
+}
+
+.flatpickr-day.today {
+  border-color: #667eea;
+
+  &:hover {
+    background: #f0f2ff;
+  }
+}
+
+.flatpickr-time input {
+  font-family: 'Satoshi', sans-serif;
+}
+
+.flatpickr-current-month {
+  font-family: 'Satoshi', sans-serif;
+  font-weight: 500;
+}
+
+body {
+  font-family: 'Satoshi', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  background: #f5f7fa;
+  color: #1a1a1a;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+button {
+  font-family: 'Satoshi', sans-serif;
+}
+
+/* Scrollbar personalizada */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}

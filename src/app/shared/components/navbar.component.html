@@ -1,0 +1,49 @@
+@if (currentUser) {
+  <nav class="navbar">
+    <div class="navbar-container">
+      <div class="navbar-left">
+        <a routerLink="/calendario" class="navbar-brand">
+          <i class="fas fa-calendar-alt"></i>
+          <span class="brand-text">GESTIÓN DE SESIONES</span>
+        </a>
+
+        <div class="navbar-links">
+          <a routerLink="/calendario" routerLinkActive="active" class="nav-link">
+            Calendario
+          </a>
+          @if (isAdmin) {
+            <a routerLink="/admin" routerLinkActive="active" class="nav-link">
+              Administrador
+            </a>
+          }
+        </div>
+      </div>
+
+      <div class="navbar-right">
+        <div class="user-menu" (click)="toggleUserMenu()">
+          <div class="user-avatar">
+            {{ currentUser.name.charAt(0).toUpperCase() }}
+          </div>
+          <span class="user-name">{{ currentUser.name }}</span>
+          <span class="dropdown-arrow">▼</span>
+
+          @if (showUserMenu) {
+            <div class="user-dropdown">
+              <div class="user-info">
+                <p class="user-email">{{ currentUser.email }}</p>
+                <span class="user-role-badge" [class.admin]="isAdmin">
+                  {{ isAdmin ? 'Administrador' : 'Usuario' }}
+                </span>
+              </div>
+              <hr>
+              <button class="logout-btn" (click)="logout()">
+                <i class="fas fa-sign-out-alt"></i>
+                Cerrar Sesión
+              </button>
+            </div>
+          }
+        </div>
+      </div>
+    </div>
+  </nav>
+}

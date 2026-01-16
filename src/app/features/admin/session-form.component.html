@@ -1,0 +1,173 @@
+<div class="form-container">
+  <div class="form-header">
+    <h1>{{ isEditMode ? 'Editar Sesión' : 'Nueva Sesión' }}</h1>
+  </div>
+
+  <form [formGroup]="sessionForm" (ngSubmit)="onSubmit()" class="session-form">
+    <div class="form-grid">
+      <!-- Imagen -->
+      <div class="form-group full-width">
+        <label>Imagen (Opcional)</label>
+        <div class="image-upload-container">
+          @if (!imagePreview) {
+            <div class="upload-placeholder">
+              <input
+                type="file"
+                id="imageUpload"
+                accept="image/*"
+                (change)="onImageChange($event)"
+                style="display: none"
+              />
+              <label for="imageUpload" class="upload-label">
+                <i class="fas fa-camera" style="font-size: 48px;"></i>
+                <span>Haz clic para subir una imagen</span>
+              </label>
+            </div>
+          }
+
+          @if (imagePreview) {
+            <div class="image-preview">
+              <img [src]="imagePreview" alt="Preview">
+              <button type="button" class="btn-remove-image" (click)="removeImage()">
+                <i class="fas fa-times"></i> Eliminar imagen
+              </button>
+            </div>
+          }
+        </div>
+      </div>
+
+      <!-- Título -->
+      <div class="form-group full-width">
+        <label for="title">Título *</label>
+        <input
+          id="title"
+          type="text"
+          formControlName="title"
+          placeholder="Nombre de la sesión"
+          [class.error]="sessionForm.get('title')?.invalid && sessionForm.get('title')?.touched"
+        />
+        @if (sessionForm.get('title')?.invalid && sessionForm.get('title')?.touched) {
+          <span class="error-message">
+            El título debe tener al menos 3 caracteres
+          </span>
+        }
+      </div>
+
+      <!-- Descripción -->
+      <div class="form-group full-width">
+        <label for="description">Descripción *</label>
+        <textarea
+          id="description"
+          formControlName="description"
+          rows="4"
+          placeholder="Describe la sesión..."
+          [class.error]="sessionForm.get('description')?.invalid && sessionForm.get('description')?.touched"
+        ></textarea>
+        @if (sessionForm.get('description')?.invalid && sessionForm.get('description')?.touched) {
+          <span class="error-message">
+            La descripción debe tener al menos 10 caracteres
+          </span>
+        }
+      </div>
+
+      <!-- Categoría -->
+      <div class="form-group">
+        <label for="category">Categoría *</label>
+        <select
+          id="category"
+          formControlName="category"
+          [class.error]="sessionForm.get('category')?.invalid && sessionForm.get('category')?.touched"
+        >
+          <option value="">Selecciona una categoría</option>
+          @for (category of categories; track category) {
+            <option [value]="category">
+              {{ category }}
+            </option>
+          }
+        </select>
+        @if (sessionForm.get('category')?.invalid && sessionForm.get('category')?.touched) {
+          <span class="error-message">
+            Selecciona una categoría
+          </span>
+        }
+      </div>
+
+      <!-- Ciudad -->
+      <div class="form-group">
+        <label for="city">Ciudad *</label>
+        <select
+          id="city"
+          formControlName="city"
+          [class.error]="sessionForm.get('city')?.invalid && sessionForm.get('city')?.touched"
+        >
+          <option value="">Selecciona una ciudad</option>
+          @for (city of cities; track city) {
+            <option [value]="city">
+              {{ city }}
+            </option>
+          }
+        </select>
+        @if (sessionForm.get('city')?.invalid && sessionForm.get('city')?.touched) {
+          <span class="error-message">
+            Selecciona una ciudad
+          </span>
+        }
+      </div>
+
+      <!-- Fecha y Hora -->
+      <div class="form-group">
+        <label for="dateTime">Fecha y Hora *</label>
+        <input
+          #dateTimeInput
+          id="dateTime"
+          type="text"
+          formControlName="dateTime"
+          placeholder="Selecciona fecha y hora"
+          readonly
+          [class.error]="sessionForm.get('dateTime')?.invalid && sessionForm.get('dateTime')?.touched"
+        />
+        @if (sessionForm.get('dateTime')?.invalid && sessionForm.get('dateTime')?.touched) {
+          <span class="error-message">
+            Selecciona fecha y hora
+          </span>
+        }
+      </div>
+
+      <!-- Estado -->
+      <div class="form-group">
+        <label for="status">Estado *</label>
+        <select
+          id="status"
+          formControlName="status"
+          [class.error]="sessionForm.get('status')?.invalid && sessionForm.get('status')?.touched"
+        >
+          @for (status of statuses; track status) {
+            <option [value]="status">
+              {{ status | titlecase }}
+            </option>
+          }
+        </select>
+      </div>
+    </div>
+
+    @if (errorMessage) {
+      <div class="error-alert">
+        {{ errorMessage }}
+      </div>
+    }
+
+    <div class="form-actions">
+      <button type="button" class="btn-cancel" (click)="cancel()">
+        Cancelar
+      </button>
+      <button type="submit" class="btn-submit" [disabled]="sessionForm.invalid || isLoading">
+        @if (!isLoading) {
+          <span>{{ isEditMode ? 'Actualizar' : 'Crear' }} Sesión</span>
+        }
+        @if (isLoading) {
+          <span>Guardando...</span>
+        }
+      </button>
+    </div>
+  </form>
+</div>

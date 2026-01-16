@@ -1,0 +1,65 @@
+<div class="admin-container">
+  <div class="admin-header">
+    <h1>Panel de Administración</h1>
+    <button class="btn-create" (click)="createSession()">
+      <i class="fas fa-plus"></i>
+      Nueva Sesión
+    </button>
+  </div>
+
+  <div class="sessions-table-container">
+    <table class="sessions-table">
+      <thead>
+        <tr>
+          <th>Título</th>
+          <th>Categoría</th>
+          <th>Ciudad</th>
+          <th>Fecha</th>
+          <th>Estado</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (session of sessions; track session.id) {
+          <tr>
+            <td>{{ session.title }}</td>
+            <td>
+              <span class="category-badge">{{ session.category }}</span>
+            </td>
+            <td>{{ session.city }}</td>
+            <td>{{ session.dateTime | date:'dd/MM/yyyy HH:mm' }}</td>
+            <td>
+              <span class="status-badge" [ngClass]="getStatusClass(session.status)">
+                {{ session.status }}
+              </span>
+            </td>
+            <td>
+              <div class="actions">
+                <button class="btn-edit" (click)="editSession(session.id)" title="Editar">
+                  <i class="fas fa-edit"></i>
+                </button>
+                <button
+                  class="btn-delete"
+                  (click)="deleteSession(session)"
+                  [disabled]="!canDelete(session)"
+                  [title]="canDelete(session) ? 'Eliminar' : 'Solo puedes eliminar sesiones de tu ciudad'"
+                >
+                  <i class="fas fa-trash-alt"></i>
+                </button>
+              </div>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+
+    @if (sessions.length === 0) {
+      <div class="empty-state">
+        <p>No hay sesiones creadas aún</p>
+        <button class="btn-create" (click)="createSession()">
+          Crear primera sesión
+        </button>
+      </div>
+    }
+  </div>
+</div>
